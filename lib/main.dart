@@ -1,10 +1,15 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:lab04/service/notificationService.dart';
 import 'package:lab04/widget/table_calender.dart';
 
 import 'model/exam_list_item.dart';
 import 'widget/new_exam.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
 
 void main() {
   runApp(const MyApp());
@@ -34,6 +39,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  @override
+  void initState(){
+    super.initState();
+    Noti.initialize(flutterLocalNotificationsPlugin);
+  }
+
   List<ExamListItem> _examList = [
     ExamListItem(id: "1", nameOfSubject: "Calculus", dateTime: DateTime(2023, 1, 1, 17, 30)),
     ExamListItem(id: "2", nameOfSubject: "Web Design", dateTime: DateTime(2023, 1, 3, 18)),
@@ -55,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     setState(() {
       _examList.add(item);
+      Noti.showBigTextNotification(title: "New Event", body: "New event has been added to the list", fln: flutterLocalNotificationsPlugin);
     });
   }
 
