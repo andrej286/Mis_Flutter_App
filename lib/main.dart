@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:lab04/screen/calendar_screen.dart';
 import 'package:lab04/service/notificationService.dart';
-import 'package:lab04/widget/table_calender.dart';
 
 import 'model/exam_list_item.dart';
 import 'widget/new_exam.dart';
@@ -25,7 +25,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      initialRoute: '/home',
+      routes: {
+        '/calendar': (context) => const CalendarScreen(),
+        '/home': (context) => const MyHomePage(),
+      },
     );
   }
 }
@@ -80,37 +84,37 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
               onPressed: () => _addExamFunction(context),
               icon: Icon(Icons.add)
+          ),
+          IconButton(
+          onPressed: () {
+             Navigator.pushNamed(context, '/calendar');
+           },
+              icon: Icon(Icons.calendar_month)
           )
         ],
       ),
-      body: Column(children: [
-        const CustomTableCalender(),
-        Center(
-           child: ListView.builder(
-             scrollDirection: Axis.vertical,
-             shrinkWrap: true,
-             itemBuilder: (ctx,index) {
-             return Card(
-               elevation: 3,
-               margin: EdgeInsets.symmetric(
-                 vertical: 8,
-                 horizontal: 10,
-               ),
-               child: _examList.isEmpty ?
-               Text("No exams") :
-               ListTile(
-                 title: Text(_examList[index].nameOfSubject,
-                   style: TextStyle(fontWeight: FontWeight.bold),),
-                 subtitle: Text("${_examList[index].dateTime.toString()}",
-                   style: TextStyle(color: Colors.grey)),
-               ),
-               );
-             },
-             itemCount: _examList.length,
-            ),
-           ),
-      ]
-      )
-     );
+      body: ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemBuilder: (ctx,index) {
+        return Card(
+          elevation: 3,
+          margin: EdgeInsets.symmetric(
+            vertical: 8,
+            horizontal: 10,
+          ),
+          child: _examList.isEmpty ?
+          Text("No exams") :
+          ListTile(
+            title: Text(_examList[index].nameOfSubject,
+              style: TextStyle(fontWeight: FontWeight.bold),),
+            subtitle: Text("${_examList[index].dateTime.toString()}",
+              style: TextStyle(color: Colors.grey)),
+          ),
+          );
+        },
+        itemCount: _examList.length,
+       ),
+    );
   }
 }
