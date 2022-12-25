@@ -16,11 +16,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-        appBar: AppBar(
-        title: Text('Calender for the Events'),
-    ),
-    body: CustomTableCalender()
-    );
+    return CustomTableCalender();
   }
 }

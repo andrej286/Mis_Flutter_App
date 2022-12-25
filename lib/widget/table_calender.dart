@@ -8,8 +8,6 @@ class CustomTableCalender extends StatefulWidget {
 
   const CustomTableCalender({super.key});
 
-  // TODO: conect and map the list of ExamListItem in the main page to a map of lists or load it from the db again
-
   @override
   State<StatefulWidget> createState() => _CustomTableCalenderState();
 }

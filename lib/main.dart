@@ -35,20 +35,21 @@ class MyApp extends StatelessWidget {
       routes: {
         '/calendar': (context) => const CalendarScreen(),
         '/home': (context) => const WidgetTree(),
+        '/exam_list': (context) => const ExamPage(),
       },
       home: const WidgetTree(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class ExamPage extends StatefulWidget {
+  const ExamPage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<ExamPage> createState() => _ExamPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _ExamPageState extends State<ExamPage> {
 
   @override
   void initState(){
