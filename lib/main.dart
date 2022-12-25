@@ -8,10 +8,16 @@ import 'package:lab04/service/notificationService.dart';
 import 'model/exam_list_item.dart';
 import 'widget/new_exam.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:lab04/widget_tree.dart';
+
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 FlutterLocalNotificationsPlugin();
 
-void main() {
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -28,8 +34,9 @@ class MyApp extends StatelessWidget {
       initialRoute: '/home',
       routes: {
         '/calendar': (context) => const CalendarScreen(),
-        '/home': (context) => const MyHomePage(),
+        '/home': (context) => const WidgetTree(),
       },
+      home: const WidgetTree(),
     );
   }
 }
