@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../model/exam_list_item.dart';
 
@@ -19,10 +20,11 @@ class NewExam extends StatefulWidget {
 class _NewExamState extends State<NewExam>{
 
   final _subjectNameController = TextEditingController();
+  final _locationNameController = TextEditingController();
 
   DateTime dateTime = DateTime.now();
 
-  void _submitData() {
+  Future<void> _submitData() async {
 
     if( _subjectNameController.text.isEmpty){
       return;
@@ -30,11 +32,24 @@ class _NewExamState extends State<NewExam>{
 
     final inputtedSubjectName = _subjectNameController.text;
 
-    // TODO:   date_field: ^3.0.0  and  nanoid: have been added to dependencies: in pubspec.yaml
-    final newExam = ExamListItem(
+    var newExam = ExamListItem(
         id: nanoid(5),
         nameOfSubject: inputtedSubjectName,
         dateTime: dateTime);
+
+    if (_locationNameController.text != null) {
+      List<Location> locations = await locationFromAddress(_locationNameController.text);
+      if (locations != null && locations.isNotEmpty) {
+        Location location = locations.first;
+
+        newExam = ExamListItem(
+            id: nanoid(5),
+            nameOfSubject: inputtedSubjectName,
+            dateTime: dateTime,
+            subjectLatitude: location.latitude,
+            subjectLongitude: location.longitude);
+      }
+    }
 
     widget.addItem(newExam);
 
@@ -50,6 +65,11 @@ class _NewExamState extends State<NewExam>{
         TextField(
           controller: _subjectNameController,
           decoration: InputDecoration(labelText: "Subject name"),
+          onSubmitted: (_) => _submitData()
+        ),
+        TextField(
+          controller: _locationNameController,
+          decoration: InputDecoration(labelText: "Location"),
           onSubmitted: (_) => _submitData()
         ),
         DateTimeFormField(

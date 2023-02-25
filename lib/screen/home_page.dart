@@ -53,6 +53,12 @@ class HomePage extends StatelessWidget {
                   Navigator.pushNamed(context, '/exam_list');
                 },
                 icon: Icon(Icons.format_list_bulleted)
+            ),
+            IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/map');
+                },
+                icon: Icon(Icons.map_outlined)
             )
           ],
         ),

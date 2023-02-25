@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lab04/screen/calendar_screen.dart';
+import 'package:lab04/screen/map_screen.dart';
 import 'package:lab04/service/notificationService.dart';
 
 import 'model/exam_list_item.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         '/calendar': (context) => const CalendarScreen(),
         '/home': (context) => const WidgetTree(),
         '/exam_list': (context) => const ExamPage(),
+        '/map': (context) => const MapScreen(),
       },
       home: const WidgetTree(),
     );
@@ -58,9 +60,9 @@ class _ExamPageState extends State<ExamPage> {
   }
 
   List<ExamListItem> _examList = [
-    ExamListItem(id: "1", nameOfSubject: "Calculus", dateTime: DateTime(2023, 1, 1, 17, 30)),
-    ExamListItem(id: "2", nameOfSubject: "Web Design", dateTime: DateTime(2023, 1, 3, 18)),
-  ];
+    ExamListItem(id: "1", nameOfSubject: "Calculus", dateTime: DateTime(2023, 1, 1, 17, 30),subjectLatitude: 42.004275, subjectLongitude: 21.408719),
+    ExamListItem(id: "2", nameOfSubject: "Web Design", dateTime: DateTime(2023, 1, 3, 18),subjectLatitude: 42.004276, subjectLongitude: 21.408719),
+  ];//42.004274, 21.408719
 
   void _addExamFunction(BuildContext ct) {
     
@@ -98,6 +100,12 @@ class _ExamPageState extends State<ExamPage> {
              Navigator.pushNamed(context, '/calendar');
            },
               icon: Icon(Icons.calendar_month)
+          ),
+          IconButton(
+          onPressed: () {
+             Navigator.pushNamed(context, '/map');
+           },
+              icon: Icon(Icons.map_outlined)
           )
         ],
       ),
