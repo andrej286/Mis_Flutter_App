@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../model/exam_list_item.dart';
+import '../provider/exam_provider.dart';
 
 class CustomTableCalender extends StatefulWidget {
 
@@ -13,10 +15,7 @@ class CustomTableCalender extends StatefulWidget {
 }
 
 class _CustomTableCalenderState extends State<CustomTableCalender> {
-  Map<DateTime, List<ExamListItem>> selectedEvents = {
-    DateTime(2022, 12, 1): [ExamListItem(id: '3', nameOfSubject: 'test1', dateTime: DateTime(2022, 12, 1))],
-    DateTime(2022, 12, 2): [ExamListItem(id: '4', nameOfSubject: 'test2', dateTime: DateTime(2022, 12, 2))]
-  };
+  Map<DateTime, List<ExamListItem>> selectedEvents = {};
 
   CalendarFormat format = CalendarFormat.month;
 
@@ -25,12 +24,21 @@ class _CustomTableCalenderState extends State<CustomTableCalender> {
 
   @override
   void initState() {
-    selectedEvents = {
-      DateTime(2022, 12, 1): [ExamListItem(id: '3', nameOfSubject: 'test1', dateTime: DateTime(2022, 12, 1))],
-      DateTime(2022, 12, 2): [ExamListItem(id: '4', nameOfSubject: 'test2', dateTime: DateTime(2022, 12, 2)),ExamListItem(id: '4', nameOfSubject: 'test3', dateTime: DateTime(2022, 12, 2))]
-    };
-
     super.initState();
+
+    final examProvider = Provider.of<ExamProvider>(context, listen: false);
+
+    examProvider.exams.forEach((exam) {
+
+      var date = DateTime(exam.dateTime.year,exam.dateTime.month,exam.dateTime.day);
+
+      if(selectedEvents.containsKey(date)){
+        selectedEvents[date]?.add(exam);
+      }
+      else{
+        selectedEvents.putIfAbsent(date, () => [exam]);
+      }
+    });
   }
 
   List<ExamListItem> _getEventsfromDay(DateTime date) {
